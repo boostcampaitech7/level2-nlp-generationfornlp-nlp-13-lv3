@@ -49,6 +49,10 @@ class DataTrainingArguments:
         default="experiments/default",
         metadata={"help": "fine tuned model saved directory path"},
     )
+    csv_output_path: str = field(
+        default="outputs/output.csv",
+        metadata={"help": "inference csv output path"},
+    )
 
 
 @dataclass
