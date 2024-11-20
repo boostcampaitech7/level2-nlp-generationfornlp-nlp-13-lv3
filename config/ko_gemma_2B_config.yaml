@@ -1,0 +1,24 @@
+model:
+  name: "beomi/gemma-ko-2b"
+
+data:
+  test :
+    file_path : 'data/test.csv'
+  train :
+    file_path : 'data/train.csv'
+
+training:
+  batch_size: 1
+  learning_rate: 2e-5
+  max_seq_length: 1024
+  num_epochs: 3
+  weight_decay: 0.01
+  logging_steps: 1
+  save_total_limit: 2
+  output_dir: "experiments/gemma-ko-2b-3ep"
+
+peft:
+  r: 6
+  lora_alpha: 8
+  target_modules: ["q_proj", "k_proj"]
+  lora_dropout: 0.05
