@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import DataLoader
 import pandas as pd
 from ast import literal_eval
-from src.data.dataset import BaseDataset, prepare_data_for_training
+from src.data.dataset import BaseDataset, prepare_data_for_training, process_dataset_test
 from datasets import Dataset
 
 
@@ -40,7 +40,7 @@ def load_datasets(file_path, tokenizer, train_split=0.9):
     return sample_dataset, val_dataset
 
 
-def load_datasets_V2(file_path, tokenizer, train_split=0.9):
+def load_datasets_V2(file_path, tokenizer, train_split=0.9, max_seq_length=1024, mode="train"):
     # 기존 Prompt 정의
     PROMPT_NO_QUESTION_PLUS = """지문:\n{paragraph}\n\n질문:\n{question}\n\n선택지:\n{choices}\n\n1, 2, 3, 4, 5 중에 하나를 정답으로 고르세요.\n정답:"""
 
@@ -66,14 +66,20 @@ def load_datasets_V2(file_path, tokenizer, train_split=0.9):
 
     # Convert to DataFrame
     df = pd.DataFrame(records)
-    dataset = Dataset.from_pandas(df)
-    tokenized_dataset = prepare_data_for_training(dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
 
-    # 데이터셋 분리
-    tokenized_dataset = tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= 1024)
-    tokenized_dataset = tokenized_dataset.train_test_split(test_size=1.0 - train_split, seed=42)
+    if mode == "train":
+        dataset = Dataset.from_pandas(df)
+        tokenized_dataset = prepare_data_for_training(dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
 
-    train_dataset = tokenized_dataset["train"]
-    eval_dataset = tokenized_dataset["test"]
+        tokenized_dataset = tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= max_seq_length)
+        # 데이터셋 분리
+        tokenized_dataset = tokenized_dataset.train_test_split(test_size=1.0 - train_split, seed=42)
+
+        train_dataset = tokenized_dataset["train"]
+        eval_dataset = tokenized_dataset["test"]
+    else:
+        test_dataset = process_dataset_test(df, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS)
+        train_dataset = test_dataset
+        eval_dataset = None
 
     return train_dataset, eval_dataset

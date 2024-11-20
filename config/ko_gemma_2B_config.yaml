@@ -16,6 +16,7 @@ training:
   logging_steps: 1
   save_total_limit: 2
   output_dir: "experiments/gemma-ko-2b-3ep"
+  csv_output_path: 'outputs/output_gemma-ko-2b-3ep.csv'
 
 peft:
   r: 6
