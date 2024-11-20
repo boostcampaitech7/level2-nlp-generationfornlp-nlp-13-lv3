@@ -51,7 +51,7 @@ if __name__ == "__main__":
     print(tokenizer.special_tokens_map)
     tokenizer.padding_side = "right"
 
-    train_dataset, val_dataset = load_datasets_V2(config["data"]["train"]["file_path"], tokenizer)
+    train_dataset, val_dataset = load_datasets_V2(config["data"]["train"]["file_path"], tokenizer, max_seq_length=training_args.max_seq_length)
 
     response_template = "<start_of_turn>model"
     data_collator = DataCollatorForCompletionOnlyLM(
