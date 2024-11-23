@@ -1,0 +1,44 @@
+model:
+  name: "unsloth/Qwen2.5-32B-Instruct-bnb-4bit"
+  max_seq_length: 4096
+  dtype: float16
+  load_in_4bit : True
+
+
+data:
+  test :
+    file_path : 'data/test.csv'
+  train :
+    file_path : 'data/augmented/clean_train.csv'
+  eval :
+    file_path : 'data/augmented/eval_dataset_for_test.csv'
+
+training:
+  batch_size: 1
+  learning_rate: 1e-5
+  max_seq_length: 1024
+  num_epochs: 1
+  max_steps: 30
+  save_steps: 3
+  weight_decay: 0.01
+  logging_steps: 1
+  save_strategy: steps
+  eval_strategy: epoch
+  save_total_limit: 3
+  output_dir: "experiments/dataset_test"
+  csv_output_path: 'outputs/output_dataset_test.csv'
+  
+
+peft:
+  r: 16
+  lora_alpha: 16
+  target_modules: [
+            "q_proj",
+            "k_proj",
+            "v_proj",
+            "o_proj",
+            "gate_proj",
+            "up_proj",
+            "down_proj",
+        ]
+  lora_dropout: 0.05
