@@ -83,3 +83,25 @@ def load_datasets_V2(file_path, tokenizer, train_split=0.9, max_seq_length=1024,
         eval_dataset = None
 
     return train_dataset, eval_dataset
+
+
+def load_datasets_for_testset(train_file_path, eval_file_path, tokenizer, max_seq_length=1024):
+    # 기존 Prompt 정의
+    PROMPT_NO_QUESTION_PLUS = """지문:\n{paragraph}\n\n질문:\n{question}\n\n선택지:\n{choices}\n\n1, 2, 3, 4, 5 중에 하나를 정답으로 고르세요.\n정답:"""
+    PROMPT_QUESTION_PLUS = """지문:\n{paragraph}\n\n질문:\n{question}\n\n<보기>:\n{question_plus}\n\n선택지:\n{choices}\n\n1, 2, 3, 4, 5 중에 하나를 정답으로 고르세요.\n정답:"""
+    # 데이터 로드 및 준비
+
+    train_dataset_df = pd.read_csv(train_file_path)  # 데이터 경로에 맞게 변경
+    eval_dataset_df = pd.read_csv(eval_file_path)
+    train_dataset = Dataset.from_pandas(train_dataset_df)
+    eval_dataset = Dataset.from_pandas(eval_dataset_df)
+
+    train_tokenized_dataset = prepare_data_for_training(train_dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
+    train_tokenized_dataset = train_tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= max_seq_length)
+
+    eval_tokenized_dataset = prepare_data_for_training(eval_dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
+    eval_tokenized_dataset = eval_tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= max_seq_length)
+
+    train_dataset = train_tokenized_dataset
+    eval_dataset = eval_tokenized_dataset
+    return train_dataset, eval_dataset
