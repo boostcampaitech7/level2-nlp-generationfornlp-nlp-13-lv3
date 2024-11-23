@@ -23,7 +23,7 @@ training:
   weight_decay: 0.01
   logging_steps: 1
   save_strategy: steps
-  eval_strategy: steps
+  eval_strategy: epoch
   save_total_limit: 3
   output_dir: "experiments/dataset_test"
   csv_output_path: 'outputs/output_dataset_test.csv'
