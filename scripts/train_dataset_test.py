@@ -9,7 +9,6 @@ import evaluate
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
 from unsloth import FastLanguageModel
-from peft import AutoPeftModelForCausalLM, LoraConfig
 import argparse
 from src.data.data_loader import load_datasets, load_datasets_for_testset
 from src.models.qwen import QwenBaseModelWithUnsloth
@@ -21,6 +20,7 @@ from src.evaluation.metrics import preprocess_logits_for_metrics, compute_metric
 from config.default_arguments import DataTrainingArguments, PeftArguments
 from config.qwen_arguments import Qwen32BWithUnsloth_ModelArguments, Qwen32BwithUnsloth_DataTrainingArguments
 import yaml
+from bitsandbytes.optim import AdamW
 
 pd.set_option("display.max_columns", None)
 
@@ -56,6 +56,7 @@ if __name__ == "__main__":
         response_template=response_template,
         tokenizer=tokenizer,
     )
+    optimizer = AdamW(model.parameters(), lr=5e-5)  # 학습률
 
     sft_config = SFTConfig(
         do_train=True,
@@ -70,6 +71,7 @@ if __name__ == "__main__":
         save_steps=training_args.save_steps,
         learning_rate=float(training_args.learning_rate),
         weight_decay=training_args.weight_decay,
+        warmup_ratio=training_args.warmup_ratio,
         logging_steps=training_args.logging_steps,
         save_strategy=training_args.save_strategy,
         eval_strategy=training_args.eval_strategy,
@@ -100,6 +102,7 @@ if __name__ == "__main__":
         preprocess_logits_for_metrics=lambda logits, labels: preprocess_logits_for_metrics(logits, labels, tokenizer),
         sft_config=sft_config,
         peft_config=None,
+        optimizers=(optimizer, None),
     )
 
     # Train the model
