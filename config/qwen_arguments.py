@@ -33,3 +33,4 @@ class Qwen32BwithUnsloth_DataTrainingArguments(DataTrainingArguments):
     save_strategy: str = field(default="steps", metadata={"help": "checkpoint save 정책을 지정합니다. (e.g. steps, epoch)"})
     eval_strategy: str = field(default="epoch", metadata={"help": "eval 정책을 지정합니다. (e.g. steps, epoch)"})
     warmup_ratio: float = field(default=0.1, metadata={"help": "warmup ratio를 지정합니다."})
+    optim: str = field(default="adamw_torch", metadata={"help": "optimizer를 설정합니다. (e.g. adamw_torch, adamw_8bit)"})

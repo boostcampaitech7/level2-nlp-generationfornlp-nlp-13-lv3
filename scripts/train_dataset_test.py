@@ -56,7 +56,6 @@ if __name__ == "__main__":
         response_template=response_template,
         tokenizer=tokenizer,
     )
-    optimizer = AdamW(model.parameters(), lr=float(training_args.learning_rate))  # 학습률
 
     sft_config = SFTConfig(
         do_train=True,
@@ -70,6 +69,7 @@ if __name__ == "__main__":
         max_steps=training_args.max_steps,
         save_steps=training_args.save_steps,
         learning_rate=float(training_args.learning_rate),
+        optim=training_args.optim,
         weight_decay=training_args.weight_decay,
         warmup_ratio=training_args.warmup_ratio,
         logging_steps=training_args.logging_steps,
@@ -102,7 +102,6 @@ if __name__ == "__main__":
         preprocess_logits_for_metrics=lambda logits, labels: preprocess_logits_for_metrics(logits, labels, tokenizer),
         sft_config=sft_config,
         peft_config=None,
-        optimizers=(optimizer, None),
     )
 
     # Train the model
