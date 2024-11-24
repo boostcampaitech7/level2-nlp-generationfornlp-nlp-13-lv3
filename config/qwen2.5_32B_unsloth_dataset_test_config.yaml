@@ -23,6 +23,7 @@ training:
   weight_decay: 0.01
   warmup_ratio: 0.1
   logging_steps: 1
+  optim: adamw_8bit
   save_strategy: steps
   eval_strategy: epoch
   save_total_limit: 3
