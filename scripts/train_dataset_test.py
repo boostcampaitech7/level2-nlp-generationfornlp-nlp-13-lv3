@@ -56,7 +56,7 @@ if __name__ == "__main__":
         response_template=response_template,
         tokenizer=tokenizer,
     )
-    optimizer = AdamW(model.parameters(), lr=5e-5)  # 학습률
+    optimizer = AdamW(model.parameters(), lr=float(training_args.learning_rate))  # 학습률
 
     sft_config = SFTConfig(
         do_train=True,
