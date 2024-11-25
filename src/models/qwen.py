@@ -1,6 +1,6 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from unsloth import is_bfloat16_supported, FastLanguageModel
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from unsloth import FastLanguageModel, is_bfloat16_supported
 
 
 class QwenBaseModelWithUnsloth:
@@ -12,5 +12,9 @@ class QwenBaseModelWithUnsloth:
             load_in_4bit=load_in_4bit,  # 4bit 양자화 로드 여부를 설정합니다.
         )
 
-    def get_model_and_tokenizer(self):
-        return self.model, self.tokenizer
+    def get_model_and_tokenizer(self, inference_mode=False):
+        model, tokenizer = self.model, self.tokenizer
+        if inference_mode == True:
+            model = FastLanguageModel.for_inference(model)
+
+        return model, tokenizer
