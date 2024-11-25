@@ -1,5 +1,5 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 class GemmaBaseModel:
