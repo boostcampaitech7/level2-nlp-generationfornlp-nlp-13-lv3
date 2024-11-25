@@ -70,6 +70,7 @@ if __name__ == "__main__":
         save_steps=training_args.save_steps,
         learning_rate=float(training_args.learning_rate),
         optim=training_args.optim,
+        gradient_accumulation_steps=training_args.gradient_accumulation_steps,
         weight_decay=training_args.weight_decay,
         warmup_ratio=training_args.warmup_ratio,
         logging_steps=training_args.logging_steps,
