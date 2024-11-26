@@ -1,9 +1,15 @@
-import torch
-from torch.utils.data import DataLoader
-import pandas as pd
 from ast import literal_eval
-from src.data.dataset import BaseDataset, prepare_data_for_training, process_dataset_test
+
+import pandas as pd
+import torch
 from datasets import Dataset
+from torch.utils.data import DataLoader
+
+from src.data.dataset import (
+    BaseDataset,
+    prepare_data_for_training,
+    process_dataset_test,
+)
 
 
 def load_datasets(file_path, tokenizer, train_split=0.9):
@@ -85,7 +91,7 @@ def load_datasets_V2(file_path, tokenizer, train_split=0.9, max_seq_length=1024,
     return train_dataset, eval_dataset
 
 
-def load_datasets_for_testset(train_file_path, eval_file_path, tokenizer, max_seq_length=1024):
+def load_datasets_for_testset(train_file_path, eval_file_path, tokenizer, max_seq_length=1024, mode="train"):
     # 기존 Prompt 정의
     PROMPT_NO_QUESTION_PLUS = """지문:\n{paragraph}\n\n질문:\n{question}\n\n선택지:\n{choices}\n\n1, 2, 3, 4, 5 중에 하나를 정답으로 고르세요.\n정답:"""
     PROMPT_QUESTION_PLUS = """지문:\n{paragraph}\n\n질문:\n{question}\n\n<보기>:\n{question_plus}\n\n선택지:\n{choices}\n\n1, 2, 3, 4, 5 중에 하나를 정답으로 고르세요.\n정답:"""
@@ -93,15 +99,38 @@ def load_datasets_for_testset(train_file_path, eval_file_path, tokenizer, max_se
 
     train_dataset_df = pd.read_csv(train_file_path)  # 데이터 경로에 맞게 변경
     eval_dataset_df = pd.read_csv(eval_file_path)
-    train_dataset = Dataset.from_pandas(train_dataset_df)
-    eval_dataset = Dataset.from_pandas(eval_dataset_df)
 
-    train_tokenized_dataset = prepare_data_for_training(train_dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
-    train_tokenized_dataset = train_tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= max_seq_length)
+    if mode == "train":
+        train_dataset = Dataset.from_pandas(train_dataset_df)
+        eval_dataset = Dataset.from_pandas(eval_dataset_df)
+        train_tokenized_dataset = prepare_data_for_training(train_dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
+        train_tokenized_dataset = train_tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= max_seq_length)
 
-    eval_tokenized_dataset = prepare_data_for_training(eval_dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
-    eval_tokenized_dataset = eval_tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= max_seq_length)
+        eval_tokenized_dataset = prepare_data_for_training(eval_dataset, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS, tokenizer)
+        eval_tokenized_dataset = eval_tokenized_dataset.filter(lambda x: len(x["input_ids"]) <= max_seq_length)
 
-    train_dataset = train_tokenized_dataset
-    eval_dataset = eval_tokenized_dataset
+        train_dataset = train_tokenized_dataset
+        eval_dataset = eval_tokenized_dataset
+    else:
+        records = []
+        for _, row in train_dataset_df.iterrows():
+            choices = literal_eval(row["choices"])
+            record = {
+                "id": row["id"],
+                "paragraph": row["paragraph"],
+                "question": row["question"],
+                "choices": choices,
+                "answer": row["answer"],
+                "question_plus": row["question_plus"],
+            }
+            # Include 'question_plus' if it exists
+
+            records.append(record)
+
+        # Convert to DataFrame
+        df = pd.DataFrame(records)
+        test_dataset = process_dataset_test(df, PROMPT_NO_QUESTION_PLUS, PROMPT_QUESTION_PLUS)
+        train_dataset = test_dataset
+        eval_dataset = None
+
     return train_dataset, eval_dataset
