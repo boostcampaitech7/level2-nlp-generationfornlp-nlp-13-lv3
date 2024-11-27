@@ -35,7 +35,7 @@ set_seed(42)  # magic number :)
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config_path", type=str, default=True, help="Configuration file path")
-
+    parser.add_argument("--is_augmented", type=bool, default=False, help="Whether the data has been augmented is passed as an argument")
     parser_args = parser.parse_args()
     # Load the train dataset
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     tokenizer.pad_token_id = tokenizer.eos_token_id
     tokenizer.padding_side = "right"
 
-    train_dataset, val_dataset = load_datasets_V2(config["data"]["train"]["file_path"], tokenizer, max_seq_length=training_args.max_seq_length)
+    train_dataset, val_dataset = load_datasets_V2(config["data"]["train"]["file_path"], tokenizer, max_seq_length=training_args.max_seq_length, is_augmented=parser_args.is_augmented)
 
     response_template = "<start_of_turn>model"
     data_collator = DataCollatorForCompletionOnlyLM(
