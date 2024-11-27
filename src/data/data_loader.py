@@ -10,6 +10,7 @@ from src.data.dataset import (
     prepare_data_for_training,
     process_dataset_test,
 )
+from src.data.preprocessing import prepare_records
 
 
 def load_datasets(file_path, tokenizer, train_split=0.9):
@@ -46,7 +47,7 @@ def load_datasets(file_path, tokenizer, train_split=0.9):
     return sample_dataset, val_dataset
 
 
-def load_datasets_V2(file_path, tokenizer, train_split=0.9, max_seq_length=1024, mode="train"):
+def load_datasets_V2(file_path, tokenizer, train_split=0.9, max_seq_length=1024, mode="train", is_augmented=False):
     # 기존 Prompt 정의
     PROMPT_NO_QUESTION_PLUS = """지문:\n{paragraph}\n\n질문:\n{question}\n\n선택지:\n{choices}\n\n1, 2, 3, 4, 5 중에 하나를 정답으로 고르세요.\n정답:"""
 
@@ -54,21 +55,7 @@ def load_datasets_V2(file_path, tokenizer, train_split=0.9, max_seq_length=1024,
     # 데이터 로드 및 준비
     dataset = pd.read_csv(file_path)  # 데이터 경로에 맞게 변경
     # Flatten the JSON dataset
-    records = []
-    for _, row in dataset.iterrows():
-        problems = literal_eval(row["problems"])
-        record = {
-            "id": row["id"],
-            "paragraph": row["paragraph"],
-            "question": problems["question"],
-            "choices": problems["choices"],
-            "answer": problems.get("answer", None),
-            "question_plus": problems.get("question_plus", None),
-        }
-        # Include 'question_plus' if it exists
-        if "question_plus" in problems:
-            record["question_plus"] = problems["question_plus"]
-        records.append(record)
+    records = prepare_records(dataset, is_augmented)
 
     # Convert to DataFrame
     df = pd.DataFrame(records)
@@ -112,20 +99,7 @@ def load_datasets_for_testset(train_file_path, eval_file_path, tokenizer, max_se
         train_dataset = train_tokenized_dataset
         eval_dataset = eval_tokenized_dataset
     else:
-        records = []
-        for _, row in train_dataset_df.iterrows():
-            choices = literal_eval(row["choices"])
-            record = {
-                "id": row["id"],
-                "paragraph": row["paragraph"],
-                "question": row["question"],
-                "choices": choices,
-                "answer": row["answer"],
-                "question_plus": row["question_plus"],
-            }
-            # Include 'question_plus' if it exists
-
-            records.append(record)
+        records = prepare_records(train_dataset_df, is_augmented=True)
 
         # Convert to DataFrame
         df = pd.DataFrame(records)
