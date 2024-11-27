@@ -18,16 +18,17 @@ training:
   learning_rate: 1e-5
   max_seq_length: 2048
   num_epochs: 2
-  save_steps: 3
+  save_steps: 100
+  max_steps: 0
   weight_decay: 0.01
   warmup_ratio: 0.1
   logging_steps: 1
   gradient_accumulation_steps: 4
-  save_strategy: epoch
-  eval_strategy: no
+  save_strategy: steps
+  eval_strategy: 'no'
   save_total_limit: 3
-  output_dir: "experiments/dataset_test_ver2"
-  csv_output_path: 'outputs/output_dataset_test_ver2.csv'
+  output_dir: "experiments/qwen_best"
+  csv_output_path: 'outputs/qwen_best.csv'
   
 
 peft:
