@@ -1,0 +1,1 @@
+warm up ratio = 0.1
