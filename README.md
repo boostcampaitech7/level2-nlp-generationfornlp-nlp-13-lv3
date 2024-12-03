@@ -15,7 +15,7 @@
 
 
 ## 🏅 Leader Board
-프로젝트 결과 Public 리더보드 2등, Private 리더보드 2등을 기록하였습니다.
+프로젝트 결과 Public 리더보드 4등, Private 리더보드 3등을 기록하였습니다.
 ### 🎖️  Public Leader Board (4위)
 ![leaderboard_public](./docs/leaderboard_public.png)
 
