@@ -1,4 +1,10 @@
 """
+This code snippet is from unslothai/unslohth
+Source: https://github.com/unslothai/unsloth
+Copyright [2024-] [Unsloth AI, Daniel Han-Chen & Michael Han-Chen]
+Licensed under the Apache License, Version 2.0
+http://www.apache.org/licenses/LICENSE-2.0
+
 unsloth 라이브러리의 현재 시스템에서 사용 가능한 설치명령어를 문자열로 가져오는 코드입니다.
 https://github.com/unslothai/unsloth/의 README.md에 작성되어있습니다.
 
