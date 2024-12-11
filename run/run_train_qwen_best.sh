@@ -1,0 +1,27 @@
+#!/bin/bash
+
+export PYTHONPATH=$PYTHONPATH:.
+export HUGGINGFACE_TOKEN=
+huggingface-cli login --token $HUGGINGFACE_TOKEN
+
+NOHUP="False"
+SCRIPT_NAME="train_qwen_best"
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --nohup) NOHUP="True"; shift ;;  
+        *) echo "알 수 없는 옵션: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+COMMAND="python scripts/${SCRIPT_NAME}.py --config_path ./config/qwen2.5_32B_unsloth_best_config.yaml --is_augmented True"
+
+if [[ "$NOHUP" == "True" ]]; then
+    echo "nohup 모드로 실행합니다."
+    nohup $COMMAND > ./logs/${SCRIPT_NAME}.log 2> ./logs/${SCRIPT_NAME}_error.log &
+    echo "nohup 실행 완료. 로그: ${SCRIPT_NAME}.log, 에러: ${SCRIPT_NAME}_error.log"
+else
+    echo "일반 모드로 실행합니다."
+    $COMMAND
+fi
