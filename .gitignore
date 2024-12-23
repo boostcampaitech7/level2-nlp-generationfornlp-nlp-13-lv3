@@ -11,7 +11,7 @@ checkpoint/*
 
 experiments/*
 
-!*/.keep
+*.keep
 
 ## vscode
 .vscode
