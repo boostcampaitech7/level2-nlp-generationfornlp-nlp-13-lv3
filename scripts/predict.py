@@ -21,7 +21,7 @@ from config.default_arguments import (
     ModelArguments,
     PeftArguments,
 )
-from src.data.data_loader import load_datasets_V2
+from src.data.data_loader import load_datasets_v2
 from src.data.dataset import BaseDataset
 from src.models.gemma import GemmaBaseModel
 from src.training.trainer import Trainer
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     model, tokenizer = gemma_model.get_model_and_tokenizer()
     model = model.to(device)  # 모델을 GPU로 이동
 
-    test_dataset, val_dataset = load_datasets_V2(file_path=config["data"]["test"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval")
+    test_dataset, val_dataset = load_datasets_v2(file_path=config["data"]["test"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval")
 
     tokenizer.chat_template = "{% if messages[0]['role'] == 'system' %}{% set system_message = messages[0]['content'] %}{% endif %}{% if system_message is defined %}{{ system_message }}{% endif %}{% for message in messages %}{% set content = message['content'] %}{% if message['role'] == 'user' %}{{ '<start_of_turn>user\n' + content + '<end_of_turn>\n<start_of_turn>model\n' }}{% elif message['role'] == 'assistant' %}{{ content + '<end_of_turn>\n' }}{% endif %}{% endfor %}"
     tokenizer.pad_token = tokenizer.eos_token

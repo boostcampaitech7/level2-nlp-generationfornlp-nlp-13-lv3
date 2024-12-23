@@ -46,7 +46,7 @@ def load_datasets(file_path, tokenizer, train_split=0.9):
     return sample_dataset, val_dataset
 
 
-def load_datasets_V2(file_path, tokenizer, train_split=0.9, max_seq_length=1024, mode="train", is_augmented=False):
+def load_datasets_v2(file_path, tokenizer, train_split=0.9, max_seq_length=1024, mode="train", is_augmented=False):
     # 기존 Prompt 정의
     PROMPT_NO_QUESTION_PLUS = """지문:\n{paragraph}\n\n질문:\n{question}\n\n선택지:\n{choices}\n\n1, 2, 3, 4, 5 중에 하나를 정답으로 고르세요.\n정답:"""
 

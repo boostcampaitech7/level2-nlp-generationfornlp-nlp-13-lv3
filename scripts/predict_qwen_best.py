@@ -11,7 +11,7 @@ from config.qwen_arguments import (
     Qwen32BwithUnslothDataTrainingArguments,
     Qwen32BWithUnslothModelArguments,
 )
-from src.data.data_loader import load_datasets_V2
+from src.data.data_loader import load_datasets_v2
 from src.data.templates import get_chat_template
 from src.models.qwen import QwenBaseModelWithUnsloth
 from src.utils.util import get_latest_checkpoint, set_seed
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     model, tokenizer = qwen_model.get_model_and_tokenizer(inference_mode=True)
     model = model.to(device)  # 모델을 GPU로 이동
 
-    test_dataset, val_dataset = load_datasets_V2(file_path=config["data"]["test"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval")
+    test_dataset, val_dataset = load_datasets_v2(file_path=config["data"]["test"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval")
 
     tokenizer.chat_template = get_chat_template()
     tokenizer.pad_token = tokenizer.eos_token

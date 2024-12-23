@@ -19,7 +19,7 @@ from config.qwen_arguments import (
     Qwen32BwithUnslothDataTrainingArguments,
     Qwen32BWithUnslothModelArguments,
 )
-from src.data.data_loader import load_datasets_V2
+from src.data.data_loader import load_datasets_v2
 from src.data.dataset import BaseDataset
 from src.data.templates import get_chat_template
 from src.evaluation.metrics import compute_metrics, preprocess_logits_for_metrics
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     tokenizer.pad_token_id = tokenizer.eos_token_id
     tokenizer.padding_side = "right"
 
-    train_dataset, val_dataset = load_datasets_V2(config["data"]["train"]["file_path"], tokenizer, max_seq_length=training_args.max_seq_length, is_augmented=parser_args.is_augmented)
+    train_dataset, val_dataset = load_datasets_v2(config["data"]["train"]["file_path"], tokenizer, max_seq_length=training_args.max_seq_length, is_augmented=parser_args.is_augmented)
 
     response_template = "<start_of_turn>model"
     data_collator = DataCollatorForCompletionOnlyLM(
