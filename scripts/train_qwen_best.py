@@ -34,7 +34,7 @@ set_seed(42)  # magic number :)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config_path", type=str, default=True, help="Configuration file path")
+    parser.add_argument("--config_path", type=str, required=True, help="Configuration file path")
     parser.add_argument("--is_augmented", type=bool, default=False, help="Whether the data has been augmented is passed as an argument")
     parser_args = parser.parse_args()
     # Load the train dataset

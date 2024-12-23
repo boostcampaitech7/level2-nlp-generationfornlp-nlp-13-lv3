@@ -22,7 +22,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config_path", type=str, default=True, help="Configuration file path")
+    parser.add_argument("--config_path", type=str, required=True, help="Configuration file path")
     parser.add_argument("--checkpoint_path", type=str, help="Checkpoint folder path")
 
     parser_args = parser.parse_args()
