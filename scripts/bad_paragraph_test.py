@@ -44,7 +44,7 @@ if __name__ == "__main__":
             print(f"Latest checkpoint: {checkpoint_path}")
         else:
             print("No checkpoints found.")
-            sys.exit(0)
+            sys.exit(1)
 
     qwen_model = QwenBaseModelWithUnsloth(model_name=checkpoint_path, max_seq_length=model_args.max_seq_length, dtype=getattr(torch, model_args.dtype), load_in_4bit=model_args.load_in_4bit)
     model, tokenizer = qwen_model.get_model_and_tokenizer(inference_mode=True)

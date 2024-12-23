@@ -55,7 +55,7 @@ if __name__ == "__main__":
             print(f"Latest checkpoint: {checkpoint_path}")
         else:
             print("No checkpoints found.")
-            sys.exit(0)
+            sys.exit(1)
 
     gemma_model = GemmaBaseModel(checkpoint_path)
     model, tokenizer = gemma_model.get_model_and_tokenizer()
