@@ -12,7 +12,7 @@ from config.qwen_arguments import (
     Qwen32BWithUnslothModelArguments,
 )
 from src.data.data_loader import load_datasets_for_testset
-from src.data.templates import get_chat_template
+from src.data.templates import get_default_chat_template
 from src.models.qwen import QwenBaseModelWithUnsloth
 from src.utils.util import get_latest_checkpoint, set_seed
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         train_file_path=config["data"]["test"]["file_path"], eval_file_path=config["data"]["eval"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval"
     )
 
-    tokenizer.chat_template = get_chat_template()
+    tokenizer.chat_template = get_default_chat_template()
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.pad_token_id = tokenizer.eos_token_id
     print(tokenizer.special_tokens_map)

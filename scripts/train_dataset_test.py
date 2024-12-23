@@ -21,7 +21,7 @@ from config.qwen_arguments import (
 )
 from src.data.data_loader import load_datasets, load_datasets_for_testset
 from src.data.dataset import BaseDataset
-from src.data.templates import get_chat_template
+from src.data.templates import get_default_chat_template
 from src.evaluation.metrics import compute_metrics, preprocess_logits_for_metrics
 from src.models.qwen import QwenBaseModelWithUnsloth
 from src.training.trainer import Trainer
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     qwen_model = QwenBaseModelWithUnsloth(model_name=model_args.name, max_seq_length=model_args.max_seq_length, dtype=getattr(torch, model_args.dtype), load_in_4bit=model_args.load_in_4bit)
     model, tokenizer = qwen_model.get_model_and_tokenizer()
 
-    tokenizer.chat_template = get_chat_template()
+    tokenizer.chat_template = get_default_chat_template()
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.pad_token_id = tokenizer.eos_token_id
     tokenizer.padding_side = "right"
