@@ -8,11 +8,11 @@ import yaml
 from tqdm import tqdm
 
 from config.qwen_arguments import (
-    Qwen32BwithUnsloth_DataTrainingArguments,
-    Qwen32BWithUnsloth_ModelArguments,
+    Qwen32BwithUnslothDataTrainingArguments,
+    Qwen32BWithUnslothModelArguments,
 )
 from src.data.data_loader import load_datasets_for_testset
-from src.data.templates import get_chat_template
+from src.data.templates import get_default_chat_template
 from src.models.qwen import QwenBaseModelWithUnsloth
 from src.utils.util import get_latest_checkpoint, set_seed
 
@@ -22,7 +22,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config_path", type=str, default=True, help="Configuration file path")
+    parser.add_argument("--config_path", type=str, required=True, help="Configuration file path")
     parser.add_argument("--checkpoint_path", type=str, help="Checkpoint folder path")
 
     parser_args = parser.parse_args()
@@ -31,8 +31,8 @@ if __name__ == "__main__":
     with open(parser_args.config_path, "r") as file:
         config = yaml.safe_load(file)
 
-    model_args = Qwen32BWithUnsloth_ModelArguments(**config["model"])
-    training_args = Qwen32BwithUnsloth_DataTrainingArguments(**config["training"])
+    model_args = Qwen32BWithUnslothModelArguments(**config["model"])
+    training_args = Qwen32BwithUnslothDataTrainingArguments(**config["training"])
     ### 체크포인트 인자로 넘겨주면 그것을 최우선으로 사용하고 없으면 모델 + checkpoint 최대 step 폴더를 체크포인트 path로 인식
     if parser_args.checkpoint_path:
         checkpoint_path = parser_args.checkpoint_path
@@ -44,7 +44,7 @@ if __name__ == "__main__":
             print(f"Latest checkpoint: {checkpoint_path}")
         else:
             print("No checkpoints found.")
-            sys.exit(0)
+            sys.exit(1)
 
     qwen_model = QwenBaseModelWithUnsloth(model_name=checkpoint_path, max_seq_length=model_args.max_seq_length, dtype=getattr(torch, model_args.dtype), load_in_4bit=model_args.load_in_4bit)
     model, tokenizer = qwen_model.get_model_and_tokenizer(inference_mode=True)
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         train_file_path=config["data"]["test"]["file_path"], eval_file_path=config["data"]["eval"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval"
     )
 
-    tokenizer.chat_template = get_chat_template()
+    tokenizer.chat_template = get_default_chat_template()
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.pad_token_id = tokenizer.eos_token_id
     print(tokenizer.special_tokens_map)
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     model.eval()
     with torch.inference_mode():
-        for data in tqdm(test_dataset):
+        for data in tqdm(test_dataset, dynamic_ncols=True):
             # print(data)
             _id = data["id"]
             messages = data["messages"]

@@ -1,26 +1,31 @@
-import torch
+import argparse
+import json
+import random
 import sys
 from ast import literal_eval
-from trl import SFTTrainer, DataCollatorForCompletionOnlyLM, SFTConfig
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-from datasets import Dataset
-import json
-import pandas as pd
-import random
-import numpy as np
-import matplotlib.pyplot as plt
+
 import evaluate
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import torch
+import yaml
+from datasets import Dataset
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
-import argparse
-from src.data.data_loader import load_datasets_V2
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from trl import DataCollatorForCompletionOnlyLM, SFTConfig, SFTTrainer
+
+from config.default_arguments import (
+    DataTrainingArguments,
+    ModelArguments,
+    PeftArguments,
+)
+from src.data.data_loader import load_datasets_v2
+from src.data.dataset import BaseDataset
 from src.models.gemma import GemmaBaseModel
 from src.training.trainer import Trainer
-from src.data.dataset import BaseDataset
-from src.utils.util import set_seed, get_latest_checkpoint
-from config.default_arguments import DataTrainingArguments, ModelArguments, PeftArguments
-
-import yaml
+from src.utils.util import get_latest_checkpoint, set_seed
 
 set_seed(42)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -28,7 +33,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config_path", type=str, default=True, help="Configuration file path")
+    parser.add_argument("--config_path", type=str, required=True, help="Configuration file path")
     parser.add_argument("--checkpoint_path", type=str, help="Checkpoint folder path")
 
     parser_args = parser.parse_args()
@@ -50,13 +55,13 @@ if __name__ == "__main__":
             print(f"Latest checkpoint: {checkpoint_path}")
         else:
             print("No checkpoints found.")
-            sys.exit(0)
+            sys.exit(1)
 
     gemma_model = GemmaBaseModel(checkpoint_path)
     model, tokenizer = gemma_model.get_model_and_tokenizer()
     model = model.to(device)  # 모델을 GPU로 이동
 
-    test_dataset, val_dataset = load_datasets_V2(file_path=config["data"]["test"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval")
+    test_dataset, val_dataset = load_datasets_v2(file_path=config["data"]["test"]["file_path"], tokenizer=tokenizer, max_seq_length=training_args.max_seq_length, mode="eval")
 
     tokenizer.chat_template = "{% if messages[0]['role'] == 'system' %}{% set system_message = messages[0]['content'] %}{% endif %}{% if system_message is defined %}{{ system_message }}{% endif %}{% for message in messages %}{% set content = message['content'] %}{% if message['role'] == 'user' %}{{ '<start_of_turn>user\n' + content + '<end_of_turn>\n<start_of_turn>model\n' }}{% elif message['role'] == 'assistant' %}{{ content + '<end_of_turn>\n' }}{% endif %}{% endfor %}"
     tokenizer.pad_token = tokenizer.eos_token
@@ -70,7 +75,7 @@ if __name__ == "__main__":
 
     model.eval()
     with torch.inference_mode():
-        for data in tqdm(test_dataset):
+        for data in tqdm(test_dataset, dynamic_ncols=True):
             # print(data)
             _id = data["id"]
             messages = data["messages"]
