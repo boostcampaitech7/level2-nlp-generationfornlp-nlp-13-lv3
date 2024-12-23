@@ -13,7 +13,7 @@ def generate_chat_template(messages):
     return "".join(template)
 
 
-def get_chat_template():
+def get_default_chat_template():
 
     template = (
         "{% if messages[0]['role'] == 'system' %}"

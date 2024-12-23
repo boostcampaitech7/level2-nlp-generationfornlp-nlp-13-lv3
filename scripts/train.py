@@ -1,27 +1,33 @@
+import argparse
+import json
+import random
+from ast import literal_eval
+
+import evaluate
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 import torch
 import transformers
-from ast import literal_eval
-from trl import SFTTrainer, DataCollatorForCompletionOnlyLM, SFTConfig
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+import yaml
 from datasets import Dataset
-import json
-import pandas as pd
-import random
-import numpy as np
-import matplotlib.pyplot as plt
-import evaluate
+from peft import AutoPeftModelForCausalLM, LoraConfig
 from sklearn.feature_extraction.text import TfidfVectorizer
 from tqdm import tqdm
-from peft import AutoPeftModelForCausalLM, LoraConfig
-import argparse
-from src.data.data_loader import load_datasets, load_datasets_V2
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from trl import DataCollatorForCompletionOnlyLM, SFTConfig, SFTTrainer
+
+from config.default_arguments import (
+    DataTrainingArguments,
+    ModelArguments,
+    PeftArguments,
+)
+from src.data.data_loader import load_datasets, load_datasets_v2
+from src.data.dataset import BaseDataset
+from src.evaluation.metrics import compute_metrics, preprocess_logits_for_metrics
 from src.models.gemma import GemmaBaseModel
 from src.training.trainer import Trainer
-from src.data.dataset import BaseDataset
 from src.utils.util import set_seed
-from src.evaluation.metrics import preprocess_logits_for_metrics, compute_metrics
-from config.default_arguments import DataTrainingArguments, ModelArguments, PeftArguments
-import yaml
 
 pd.set_option("display.max_columns", None)
 
@@ -30,7 +36,7 @@ set_seed(42)  # magic number :)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config_path", type=str, default=True, help="Configuration file path")
+    parser.add_argument("--config_path", type=str, required=True, help="Configuration file path")
 
     parser_args = parser.parse_args()
     # Load the train dataset
@@ -51,7 +57,7 @@ if __name__ == "__main__":
     print(tokenizer.special_tokens_map)
     tokenizer.padding_side = "right"
 
-    train_dataset, val_dataset = load_datasets_V2(config["data"]["train"]["file_path"], tokenizer, max_seq_length=training_args.max_seq_length)
+    train_dataset, val_dataset = load_datasets_v2(config["data"]["train"]["file_path"], tokenizer, max_seq_length=training_args.max_seq_length)
 
     response_template = "<start_of_turn>model"
     data_collator = DataCollatorForCompletionOnlyLM(

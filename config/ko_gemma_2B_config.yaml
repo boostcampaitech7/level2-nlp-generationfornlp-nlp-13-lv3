@@ -2,10 +2,10 @@ model:
   name: "beomi/gemma-ko-2b"
 
 data:
-  test :
-    file_path : 'data/test.csv'
-  train :
-    file_path : 'data/train.csv'
+  test:
+    file_path: "data/test.csv"
+  train:
+    file_path: "data/train.csv"
 
 training:
   batch_size: 1
@@ -16,7 +16,7 @@ training:
   logging_steps: 1
   save_total_limit: 2
   output_dir: "experiments/gemma-ko-2b-3ep"
-  csv_output_path: 'outputs/output_gemma-ko-2b-3ep.csv'
+  csv_output_path: "outputs/output_gemma-ko-2b-3ep.csv"
 
 peft:
   r: 6
