@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     model.eval()
     with torch.inference_mode():
-        for data in tqdm(test_dataset):
+        for data in tqdm(test_dataset, dynamic_ncols=True):
             # print(data)
             _id = data["id"]
             messages = data["messages"]
