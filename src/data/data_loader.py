@@ -14,7 +14,6 @@ from src.data.preprocessing import prepare_records
 
 
 def load_datasets(file_path, tokenizer, train_split=0.9):
-    """docstring"""
     dataset = pd.read_csv(file_path)
 
     records = []
