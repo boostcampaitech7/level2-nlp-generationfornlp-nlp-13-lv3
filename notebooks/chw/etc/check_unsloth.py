@@ -1,5 +1,5 @@
 """
-This code snippet is from unslothai/unslohth
+This code snippet is from unslothai/unsloth
 Source: https://github.com/unslothai/unsloth
 Copyright [2024-] [Unsloth AI, Daniel Han-Chen & Michael Han-Chen]
 Licensed under the Apache License, Version 2.0
