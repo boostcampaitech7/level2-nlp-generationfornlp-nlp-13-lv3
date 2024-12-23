@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
-from typing import Optional, List
+from typing import List, Optional
 
-from config.default_arguments import ModelArguments, DataTrainingArguments
+from config.default_arguments import DataTrainingArguments, ModelArguments
 
 
 @dataclass
-class Qwen32BWithUnsloth_ModelArguments(ModelArguments):
+class Qwen32BWithUnslothModelArguments(ModelArguments):
     """
     Arguments pertaining to which model/config/tokenizer we are going to fine-tune from.
     """
@@ -26,7 +26,7 @@ class Qwen32BWithUnsloth_ModelArguments(ModelArguments):
 
 
 @dataclass
-class Qwen32BwithUnsloth_DataTrainingArguments(DataTrainingArguments):
+class Qwen32BwithUnslothDataTrainingArguments(DataTrainingArguments):
 
     max_steps: int = field(default=30, metadata={"help": "train을 진행할 최대 step 수 입니다."})
     save_steps: int = field(default=3, metadata={"help": "체크포인트를 저장할 step 수입니다. (save_steps 진행 별 체크포인트 저장 - ex. 3 step 진행 후 저장, 6 step 진행 후 저장)"})

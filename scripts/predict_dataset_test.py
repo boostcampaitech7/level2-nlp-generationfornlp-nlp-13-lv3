@@ -8,8 +8,8 @@ import yaml
 from tqdm import tqdm
 
 from config.qwen_arguments import (
-    Qwen32BwithUnsloth_DataTrainingArguments,
-    Qwen32BWithUnsloth_ModelArguments,
+    Qwen32BwithUnslothDataTrainingArguments,
+    Qwen32BWithUnslothModelArguments,
 )
 from src.data.data_loader import load_datasets_V2
 from src.data.templates import get_chat_template
@@ -31,8 +31,8 @@ if __name__ == "__main__":
     with open(parser_args.config_path, "r") as file:
         config = yaml.safe_load(file)
 
-    model_args = Qwen32BWithUnsloth_ModelArguments(**config["model"])
-    training_args = Qwen32BwithUnsloth_DataTrainingArguments(**config["training"])
+    model_args = Qwen32BWithUnslothModelArguments(**config["model"])
+    training_args = Qwen32BwithUnslothDataTrainingArguments(**config["training"])
     ### 체크포인트 인자로 넘겨주면 그것을 최우선으로 사용하고 없으면 모델 + checkpoint 최대 step 폴더를 체크포인트 path로 인식
     if parser_args.checkpoint_path:
         checkpoint_path = parser_args.checkpoint_path

@@ -16,8 +16,8 @@ from unsloth import FastLanguageModel
 
 from config.default_arguments import DataTrainingArguments, PeftArguments
 from config.qwen_arguments import (
-    Qwen32BwithUnsloth_DataTrainingArguments,
-    Qwen32BWithUnsloth_ModelArguments,
+    Qwen32BwithUnslothDataTrainingArguments,
+    Qwen32BWithUnslothModelArguments,
 )
 from src.data.data_loader import load_datasets_V2
 from src.data.dataset import BaseDataset
@@ -42,8 +42,8 @@ if __name__ == "__main__":
     with open(parser_args.config_path, "r") as file:
         config = yaml.safe_load(file)
 
-    model_args = Qwen32BWithUnsloth_ModelArguments(**config["model"])
-    training_args = Qwen32BwithUnsloth_DataTrainingArguments(**config["training"])
+    model_args = Qwen32BWithUnslothModelArguments(**config["model"])
+    training_args = Qwen32BwithUnslothDataTrainingArguments(**config["training"])
     peft_args = PeftArguments(**config["peft"])
 
     qwen_model = QwenBaseModelWithUnsloth(model_name=model_args.name, max_seq_length=model_args.max_seq_length, dtype=getattr(torch, model_args.dtype), load_in_4bit=model_args.load_in_4bit)
