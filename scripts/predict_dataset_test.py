@@ -55,7 +55,7 @@ if __name__ == "__main__":
     tokenizer.chat_template = get_chat_template()
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.pad_token_id = tokenizer.eos_token_id
-    print(tokenizer.special_tokens_map)
+    print(f"tokenizer.special_tokens_map: {tokenizer.special_tokens_map}")
     tokenizer.padding_side = "right"
 
     infer_results = []
