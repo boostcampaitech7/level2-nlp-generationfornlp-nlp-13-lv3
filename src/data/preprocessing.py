@@ -1,5 +1,5 @@
 from ast import literal_eval
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import pandas as pd
 
@@ -42,7 +42,7 @@ def prepare_dataset_records_with_augmented(dataset: pd.DataFrame):
     return records
 
 
-def prepare_records(dataset: pd.DataFrame, is_augmented: Optional[bool] = False) -> List[Dict]:
+def prepare_records(dataset: pd.DataFrame, is_augmented: bool = False) -> List[Dict]:
     records = []
     if is_augmented:
         records = prepare_dataset_records_with_augmented(dataset)
