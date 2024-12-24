@@ -97,7 +97,7 @@ run/run_train+inference_qwen_best.sh
 
 #### 5. 훈련 파라미터 및 데이터 경로 지정 (옵션)
 
-[config/qwen2.5_32B_unsloth_best_config.yaml](config/qwen2.5_32B_unsloth_best_config.yaml) 에에 훈련 파라미터 및 데이터 경로가 지정되어있습니다.  
+[config/qwen2.5_32B_unsloth_best_config.yaml](config/qwen2.5_32B_unsloth_best_config.yaml) 에 훈련 파라미터 및 데이터 경로가 지정되어있습니다.  
 config에서 지정 해야할 `key-value pair`는 [default_arguments.py](config/default_arguments.py)와 [qwen_arguments.py](config/qwen_arguments.py)를 참조바랍니다.  
 
 
