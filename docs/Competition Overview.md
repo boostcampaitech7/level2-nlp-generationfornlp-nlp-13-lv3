@@ -17,15 +17,15 @@
 ## 🏅 Leader Board
 프로젝트 결과 Public 리더보드 4등, Private 리더보드 3등을 기록하였습니다.
 ### 🎖️  Public Leader Board (4위)
-![leaderboard_public](./docs/leaderboard_public.png)
+![leaderboard_public](./leaderboard_public.png)
 
 ### 🥉 Private Leader Board (3위)
-![leaderboard_private](./docs/leaderboard_private.png)
+![leaderboard_private](./leaderboard_private.png)
 
 ## 👨‍💻 팀 멤버
 <div align='center'>
  
-| 김현서 [<img src="./docs/github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/kimhyeonseo0830) | 이재룡 [<img src="./docs/github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/So1pi) | 이정인 [<img src="./docs/github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/unsolomon) | 이현풍 [<img src="./docs/github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/P-oong) | 임한택 [<img src="./docs/github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/LHANTAEK) | 최현우 [<img src="./docs/github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/pica-git0) |
+| 김현서 [<img src="./github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/kimhyeonseo0830) | 이재룡 [<img src="./github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/So1pi) | 이정인 [<img src="./github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/unsolomon) | 이현풍 [<img src="./github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/P-oong) | 임한택 [<img src="./github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/LHANTAEK) | 최현우 [<img src="./github_official_logo.png" width=18 style="vertical-align:middle;" />](https://github.com/pica-git0) |
 |:-:|:-:|:-:|:-:|:-:|:-:|
 | ![김현서](https://avatars.githubusercontent.com/u/176917012?v=4) | ![이재룡](https://avatars.githubusercontent.com/u/173986541?v=4) | ![이정인](https://avatars.githubusercontent.com/u/180611698?v=4) | ![이현풍](https://avatars.githubusercontent.com/u/115058644?v=4) | ![임한택](https://avatars.githubusercontent.com/u/143519383) | ![최현우](https://avatars.githubusercontent.com/u/176974888?v=4) |
 
@@ -80,7 +80,7 @@
 
 ### 📅 프로젝트 타임라인
 - 프로젝트는 2024-11-11 ~ 2024-11-28까지 진행되었습니다.
-![타임라인](./docs/project_timeline.png)
+![타임라인](./project_timeline.png)
 
 
 ### 🕵️ 프로젝트 진행
