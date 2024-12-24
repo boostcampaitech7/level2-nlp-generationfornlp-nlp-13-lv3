@@ -111,9 +111,7 @@ level2-nlp-generationfornlp-nlp-13-lv3
 │       
 ...
 ```
-
-* --nohup: nohup 모드 실행 여부
-
+<br><br>
 
 
 
