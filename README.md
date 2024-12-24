@@ -23,12 +23,12 @@ GPT, Claude, Gemini 등 대규모 언어 모델이 이미 다양한 시험에서
 ### Installation
 
 
-1. git clone
+#### 1. git clone
 ```sh
 git clone https://github.com/boostcampaitech7/level2-nlp-generationfornlp-nlp-13-lv3.git
 cd level2-nlp-generationfornlp-nlp-13-lv3
 ```
-2. install libraries
+#### 2. install libraries
 ```sh
 pip install -r requirements.txt
 ```
