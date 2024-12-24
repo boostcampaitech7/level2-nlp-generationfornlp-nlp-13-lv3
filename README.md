@@ -180,7 +180,7 @@ For any other questions or discussion topics, please leave them in the GitHub Di
 | ![김현서](https://avatars.githubusercontent.com/u/176917012?v=4) | ![이재룡](https://avatars.githubusercontent.com/u/173986541?v=4) | ![이정인](https://avatars.githubusercontent.com/u/180611698?v=4) | ![이현풍](https://avatars.githubusercontent.com/u/115058644?v=4) | ![임한택](https://avatars.githubusercontent.com/u/143519383) | ![최현우](https://avatars.githubusercontent.com/u/176974888?v=4) |
 
 
-### 👼 role
+### 👼 Role
 
 
 |팀원   | 역할 |
