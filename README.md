@@ -24,8 +24,8 @@ GPT, Claude, Gemini 등 대규모 언어 모델이 이미 다양한 시험에서
 
 1. git clone
 ```sh
-git clone https://github.com/boostcampaitech7/level2-nlp-generationfornlp-nlp-06-lv3.git
-cd level2-nlp-generationfornlp-nlp-06-lv3
+git clone https://github.com/boostcampaitech7/level2-nlp-generationfornlp-nlp-13-lv3.git
+cd level2-nlp-generationfornlp-nlp-13-lv3
 ```
 2. install libraries
 ```sh
@@ -59,7 +59,7 @@ pip install -r requirements.txt
 위 형식의 csv 파일을 아래 예처럼 넣어주면 됩니다.
 
 ```kotlin
-level2-nlp-generationfornlp-nlp-06-lv3/
+level2-nlp-generationfornlp-nlp-13-lv3/
 ├── data/
 │   ├── train/
 │   │   └── train.csv
@@ -102,7 +102,7 @@ config에서 지정 해야할 `key-value pair`는 [default_arguments.py](config/
 
 
 ```sh
-level2-nlp-generationfornlp-nlp-06-lv3
+level2-nlp-generationfornlp-nlp-13-lv3
 ├── config/
 │   ├── qwen2.5_32B_unsloth_best_config.yaml
 │   ├── default_arguments.py
