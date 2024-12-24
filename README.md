@@ -3,7 +3,8 @@
   # 🏆 LV.2 NLP 프로젝트 : Generation For NLP
 
 </div>
-이 프로젝트는 **“한국 수능 시험에서 우수한 성적을 낼 수 있는 소규모 AI 모델”**을 만들기 위해 시작되었습니다.
+
+이 프로젝트는 **“한국 수능 시험에서 우수한 성적을 낼 수 있는 소규모 AI 모델”** 을 만들기 위해 시작되었습니다.
 GPT, Claude, Gemini 등 대규모 언어 모델이 이미 다양한 시험에서 좋은 성적을 거두고 있지만, 제한된 자원으로도 뛰어난 성능을 낼 수 있는 소규모 모델에 대한 연구 및 오픈소스 생태계가 필요하다고 판단했습니다.
 <br><br>
 
@@ -22,12 +23,12 @@ GPT, Claude, Gemini 등 대규모 언어 모델이 이미 다양한 시험에서
 ### Installation
 
 
-1. git clone
+#### 1. git clone
 ```sh
-git clone https://github.com/boostcampaitech7/level2-nlp-generationfornlp-nlp-06-lv3.git
-cd level2-nlp-generationfornlp-nlp-06-lv3
+git clone https://github.com/boostcampaitech7/level2-nlp-generationfornlp-nlp-13-lv3.git
+cd level2-nlp-generationfornlp-nlp-13-lv3
 ```
-2. install libraries
+#### 2. install libraries
 ```sh
 pip install -r requirements.txt
 ```
@@ -59,7 +60,7 @@ pip install -r requirements.txt
 위 형식의 csv 파일을 아래 예처럼 넣어주면 됩니다.
 
 ```kotlin
-level2-nlp-generationfornlp-nlp-06-lv3/
+level2-nlp-generationfornlp-nlp-13-lv3/
 ├── data/
 │   ├── train/
 │   │   └── train.csv
@@ -102,7 +103,7 @@ config에서 지정 해야할 `key-value pair`는 [default_arguments.py](config/
 
 
 ```sh
-level2-nlp-generationfornlp-nlp-06-lv3
+level2-nlp-generationfornlp-nlp-13-lv3
 ├── config/
 │   ├── qwen2.5_32B_unsloth_best_config.yaml
 │   ├── default_arguments.py
@@ -110,9 +111,7 @@ level2-nlp-generationfornlp-nlp-06-lv3
 │       
 ...
 ```
-
-* --nohup: nohup 모드 실행 여부
-
+<br><br>
 
 
 
